@@ -45,6 +45,7 @@ In addition, you will need the following:
 | [WildFly](http://wildfly.org/downloads/)
 | [PostgreSQL CLI](https://www.postgresql.org/docs/current/app-psql.html)
 | [MySQL CLI](https://dev.mysql.com/downloads/shell/)
+|
 
 ## Getting Started
 
@@ -59,7 +60,7 @@ against YOUR code in
 You can start from [migrate-Java-EE-app-to-app-service-linux/initial-h2](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-h2).
 Or, you can clone from [agoncal-application-petstore-ee7](https://github.com/agoncal/agoncal-application-petstore-ee7) 
 
-#### Step ONE - Clone and Prep
+### Step ONE - Clone and Prep
 
 ```bash
 git clone --recurse-submodules https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux.git
@@ -186,7 +187,7 @@ mvn azure-webapp:deploy
 ```bash
 open https://petstore-java-ee.azurewebsites.net
 ```
-![](./media/YAPS-PetStore-on-h2.jpg)
+![](./media/YAPS-PetStore-on-h2-small.jpg)
 
 When you are finished, you can check your results 
 against YOUR code in 
@@ -339,7 +340,9 @@ Store FTP host name, say `waws-prod-bay-063.ftp.azurewebsites.windows.net`, user
 There are 5 steps to configure a data source. These steps are similar to configuring data sources 
 in any on premise Java EE app servers:
 
-1. In App Service, each instance of an app server is stateless. Therefore, each instance must be 
+##### Step 1: Understand How to configure WildFly
+
+In App Service, each instance of an app server is stateless. Therefore, each instance must be 
 configured on startup to support a Wildfly configuration needed by your application. You can configure at 
 startup by supplying a startup Bash script that calls [JBoss/WildFly CLI commands](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface) to setup data sources, messaging 
  providers and any other dependencies. We will create a startup.sh script and place it in the `/home` 
@@ -392,7 +395,7 @@ These JBoss CLI commands, JDBC driver for PostgreSQL and module XML are availabl
 
 Also, you can directly download the latest version of [JDBC driver for PostgreSQL](https://jdbc.postgresql.org/download.html)
 
-2. Upload data source artifacts to App Service linux
+##### Step 2: Upload data source artifacts to App Service linux
 
 Open an FTP connection to App Service Linux to upload data source artifacts:
 
@@ -454,7 +457,9 @@ ftp> bye
 221 Goodbye.
 ```
 
-3. Set PostgreSQL database connection info in the Web app environment:
+##### Step 3: Set PostgreSQL database connection info in the Web app environment
+
+Use Azure CLI to set database connection info:
    
 ```bash
 az webapp config appsettings set \
@@ -489,7 +494,7 @@ az webapp config appsettings set \
  
 ```
 
-4. Test the JBoss/WildFly CLI commands to configure data source
+##### Step 4: Test the JBoss/WildFly CLI commands to configure data source
 
 You can test Bash script for configuring data source by running them on App Service Linux 
 by [opening an SSH connection from your development machine](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-ssh-support#open-ssh-session-from-remote-shell):
@@ -549,7 +554,9 @@ Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
 }
 ``` 
 
-5. Restart the remote WildFly app server
+##### Step 5: Restart the remote WildFly app server
+
+Use Azure CLI to restart the remote WildFly app server:
    
 ```bash
 az webapp stop -g ${RESOURCEGROUP_NAME} -n ${WEBAPP_NAME}
@@ -629,7 +636,7 @@ mvn azure-webapp:deploy
 open https://petstore-java-ee.azurewebsites.net
 ```
 
-![](./media/YAPS-PetStore-on-h2.jpg)
+![](./media/YAPS-PetStore-on-h2-small.jpg)
 
 #### Log into Azure Database for PostgreSQL and Validate Tables were Created and Populated
 
@@ -725,8 +732,6 @@ az webapp log tail --name ${WEBAPP_NAME}  --resource-group ${RESOURCEGROUPAME}
 When you are finished, you can check your results 
 against YOUR code in 
 [migrate-Java-EE-app-to-app-service-linux/initial-mysql](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-mysql).
-
-
 
 ## Build and Deploy Pet Store Powered Using Azure Database for MySQL
 
@@ -862,7 +867,9 @@ Also, for your convenience, there is a [cheat sheet for MySQL CLI](http://www.my
 There are 5 steps to configure a data source. These steps are similar to configuring data sources 
 in any on premise Java EE app servers:
 
-1. In App Service, each instance of an app server is stateless. Therefore, each instance must be 
+##### Step 1: Understand How to configure WildFly
+
+In App Service, each instance of an app server is stateless. Therefore, each instance must be 
 configured on startup to support a Wildfly configuration needed by your application. You can configure at 
 startup by supplying a startup Bash script that calls [JBoss/WildFly CLI commands](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface) to setup data sources, messaging 
  providers and any other dependencies. We will create a startup.sh script and place it in the `/home` 
@@ -919,7 +926,7 @@ Also, you can directly download [JDBC driver for MySQL](https://dev.mysql.com/do
 wget -q "http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/8.0.13/mysql-connector-java-8.0.13.jar" -O mysql-connector-java-8.0.13.jar
 ```
 
-2. Upload data source artifacts to App Service linux
+##### Step 2: Upload data source artifacts to App Service linux
 
 Open an FTP connection to App Service Linux to upload data source artifacts:
 
@@ -977,7 +984,9 @@ ftp> bye
 221 Goodbye.
 ```
 
-3. Set MySQL database connection info in the Web app environment:
+##### Step 3: Set MySQL database connection info in the Web app environment
+
+Use Azure CLI to set database connection info:
    
 ```bash
 az webapp config appsettings set \
@@ -1012,7 +1021,7 @@ az webapp config appsettings set \
  
 ```
 
-4. Test the JBoss/WildFly CLI commands to configure data source
+##### Step 4: Test the JBoss/WildFly CLI commands to configure data source
 
 You can test Bash script for configuring data source by running them on App Service Linux 
 by [opening an SSH connection from your development machine](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-ssh-support#open-ssh-session-from-remote-shell):
@@ -1074,7 +1083,9 @@ Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
 }
 ``` 
 
-5. Restart the remote WildFly app server
+##### Step 5: Restart the remote WildFly app server
+
+Use Azure CLI to restart the remote WildFly app server:
    
 ```bash
 az webapp stop -g ${RESOURCEGROUP_NAME} -n ${WEBAPP_NAME}
