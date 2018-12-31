@@ -1159,13 +1159,13 @@ mvn azure-webapp:deploy
 [INFO] ------------------------------------------------------------------------
 ```
 
-#### Open Pet Store running on App Service Linux and interacting with Azure Database for PostgreSQL
+#### Open Pet Store running on App Service Linux and interacting with Azure Database for MySQL
 
 ```bash
 open https://petstore-java-ee.azurewebsites.net
 ```
 
-![](./media/YAPS-PetStore-on-h2.jpg)
+![](./media/YAPS-PetStore-on-h2-small.jpg)
 
 #### Log into Azure Database for MySQL and Validate Tables were Created and Populated
 
