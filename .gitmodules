@@ -1,0 +1,12 @@
+[submodule "complete/agoncal-application-petstore-ee7"]
+	path = complete/agoncal-application-petstore-ee7
+	url = https://github.com/agoncal/agoncal-application-petstore-ee7.git
+[submodule "initial-postgresql/agoncal-application-petstore-ee7"]
+	path = initial-postgresql/agoncal-application-petstore-ee7
+	url = https://github.com/agoncal/agoncal-application-petstore-ee7.git
+[submodule "initial-h2/agoncal-application-petstore-ee7"]
+	path = initial-h2/agoncal-application-petstore-ee7
+	url = https://github.com/agoncal/agoncal-application-petstore-ee7.git
+[submodule "initial-mysql/agoncal-application-petstore-ee7"]
+	path = initial-mysql/agoncal-application-petstore-ee7
+	url = https://github.com/agoncal/agoncal-application-petstore-ee7.git
