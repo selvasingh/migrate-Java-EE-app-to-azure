@@ -203,8 +203,7 @@ cd ../../initial-postgresql/agoncal-application-petstore-ee7
 
 #### Add PostgreSQL Profile
 
-Activate MySQL profile in POM.xml by moving the 
-```xml <activation></activation>``` markup to MySQL profile:
+Add a new profile for PostgreSQL in `pom.xml`:
 
 ```xml
 <profile>
@@ -741,7 +740,8 @@ cd ../../initial-mysql/agoncal-application-petstore-ee7
 
 #### Add MySQL Profile
 
-Add a new profile for PostgreSQL in `pom.xml`:
+Add a new profile for MySQL in `pom.xml`:
+
 ```xml
 <profile>
   <id>mysql</id>
