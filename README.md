@@ -1223,15 +1223,6 @@ Bye
 
 #### Trouble Shoot Petstore on Azure by Viewing Logs
 
-Configure logs for the deployed Java Web 
-app in App Service Linux:
-
-```bash
-az webapp log config --name ${WEBAPP_NAME} \
- --resource-group ${RESOURCEGROUP_NAME} \
-  --web-server-logging filesystem
-```
-
 Open Java Web app remote log stream from a local machine:
 
 ```bash
@@ -1260,11 +1251,12 @@ az webapp log tail --name ${WEBAPP_NAME}  --resource-group ${RESOURCEGROUPAME}
 2018-12-22T00:41:57.201980849Z 00:41:57,201 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0049: WildFly Full 14.0.1.Final (WildFly Core 6.0.2.Final) starting
 ...
 ...
-2018-12-22T00:42:19.043814396Z 00:42:19,043 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 41) WFLYJCA0005: Deploying non-JDBC-compliant driver class org.postgresql.Driver (version 42.2)
+2018-12-22T00:42:19.043814396Z 00:42:19,043 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 41) WFLYJCA0005: Deploying non-JDBC-compliant driver class com.mysql.cj.jdbc.Driver (version 8.0)
 2018-12-22T00:42:19.050046930Z 00:42:19,042 INFO  [org.jboss.as.security] (MSC service thread 1-2) WFLYSEC0001: Current PicketBox version=5.0.3.Final
 2018-12-22T00:42:19.086580525Z 00:42:19,086 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-1) WFLYUT0003: Undertow 2.0.13.Final starting
 2018-12-22T00:42:19.155234792Z 00:42:19,155 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-2) WFLYJCA0018: Started Driver service with driver-name = h2
-2018-12-22T00:42:19.173958592Z 00:42:19,173 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-2) WFLYJCA0018: Started Driver service with driver-name = postgres
+2018-12-22T00:42:19.173958592Z 00:42:19,173 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-2) WFLYJCA0018: Started Driver service with driver-name = mysql
+2018-12-22T00:42:19.173958592Z 00:42:19,187 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-1) WFLYJCA0018: Started Driver service with driver-name = postgres
 ...
 ...
 2018-12-22T00:42:40.634081365Z 00:42:40,633 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 14.0.1.Final (WildFly Core 6.0.2.Final) started in 22695ms - Started 801 of 972 services (328 services are lazy, passive or on-demand)
@@ -1295,7 +1287,7 @@ app's data to Azure Database for PostgreSQL and or MySQL.
 
 - [Java Enterprise Guide for App Service on Linux](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-java-enterprise)
 - [Maven Plugin for Azure App Service](https://docs.microsoft.com/en-us/java/api/overview/azure/maven/azure-webapp-maven-plugin/readme?view=azure-java-stable)
-- [JBoss Data Source Management](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/datasource_management).
+- [JBoss Data Source Management](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/datasource_management)
 - [JBoss/WildFly CLI Guide](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface)
 - [JDBC driver for PostgreSQL](https://jdbc.postgresql.org/download.html)
 - [PostgreSQL CLI Cheat Sheet](http://www.postgresqltutorial.com/postgresql-cheat-sheet/)
