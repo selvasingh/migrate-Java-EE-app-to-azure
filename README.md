@@ -741,6 +741,7 @@ cd ../../initial-mysql/agoncal-application-petstore-ee7
 #### Add MySQL Profile
 
 Add a new profile for MySQL in `pom.xml`:
+
 ```xml
 <profile>
   <id>mysql</id>
