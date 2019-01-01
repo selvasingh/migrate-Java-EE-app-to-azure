@@ -695,8 +695,6 @@ Open Java Web app remote log stream from a local machine:
 ```bash
 az webapp log tail --name ${WEBAPP_NAME} \
  --resource-group ${RESOURCEGROUP_NAME}
- 
-az webapp log tail --name ${WEBAPP_NAME}  --resource-group ${RESOURCEGROUPAME}
 
 2018-12-22T00:47:48  Welcome, you are now connected to log-streaming service.
 2018-12-22T00:41:45.064280703Z   _____                               
@@ -1228,8 +1226,6 @@ Open Java Web app remote log stream from a local machine:
 ```bash
 az webapp log tail --name ${WEBAPP_NAME} \
  --resource-group ${RESOURCEGROUP_NAME}
- 
-az webapp log tail --name ${WEBAPP_NAME}  --resource-group ${RESOURCEGROUPAME}
 
 2018-12-22T00:47:48  Welcome, you are now connected to log-streaming service.
 2018-12-22T00:41:45.064280703Z   _____                               
