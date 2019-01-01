@@ -21,3 +21,16 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+initial-h2/agoncal-application-petstore-ee7/*.sh
+initial-h2/agoncal-application-petstore-ee7/.scripts/*
+initial-h2/agoncal-application-petstore-ee7/pom.xml
+initial-postgresql/agoncal-application-petstore-ee7/*.sh
+initial-postgresql/agoncal-application-petstore-ee7/.scripts/*
+initial-postgresql/agoncal-application-petstore-ee7/pom.xml
+initial-mysql/agoncal-application-petstore-ee7/*.sh
+initial-mysql/agoncal-application-petstore-ee7/.scripts/*
+initial-mysql/agoncal-application-petstore-ee7/pom.xml
+initial-complete/agoncal-application-petstore-ee7/*.sh
+initial-complete/agoncal-application-petstore-ee7/.scripts/*
+initial-complete/agoncal-application-petstore-ee7/pom.xml
