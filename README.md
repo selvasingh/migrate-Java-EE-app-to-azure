@@ -1,7 +1,7 @@
 ---
 services: app-service, PostgreSQL, MySQL
 platforms: java
-author: selvasingh
+author: selvasingh, sadigopu
 ---
 
 # Migrate Java EE App to App Service Linux and Azure Database for PostgreSQL and MySQL
