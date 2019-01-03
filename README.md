@@ -4,11 +4,13 @@ platforms: java
 author: selvasingh, sadigopu
 ---
 
-# Migrate Java EE App to App Service Linux and Azure Database for PostgreSQL and MySQL
+# Migrate Java EE App to Azure
 
 This guide walks you through the process of migrating an 
-existing Java EE workload to Azure, aka app to App Service Linux and app's data to Azure Database 
-for PostgreSQL and or MySQL. 
+existing Java EE workload to Azure, aka:
+ 
+- Java EE app to App Service Linux and 
+- App's data to Azure Database for PostgreSQL and or MySQL. 
 
 ## What you will migrate to cloud
 
