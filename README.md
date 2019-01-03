@@ -55,21 +55,21 @@ familiar with. Either way, you will end up with working code.
 
 When you are finished, you can check your results 
 against YOUR code in 
-[migrate-Java-EE-app-to-app-service-linux/complete](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/complete).
+[migrate-Java-EE-app-to-azure/complete](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/complete).
 
-You can start from [migrate-Java-EE-app-to-app-service-linux/initial-h2](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-h2).
+You can start from [migrate-Java-EE-app-to-azure/initial-h2](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-h2).
 Or, you can clone from [agoncal-application-petstore-ee7](https://github.com/agoncal/agoncal-application-petstore-ee7) 
 
 ### Step ONE - Clone and Prep
 
 ```bash
-git clone --recurse-submodules https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux.git
+git clone --recurse-submodules https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure.git
 yes | cp -rf .prep/* .
 ```
 
 ## Build and Deploy Pet Store Powered Using H2
 
-Open the [initial-h2/agoncal-application-petstore-ee7](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-h2/agoncal-application-petstore-ee7)
+Open the [initial-h2/agoncal-application-petstore-ee7](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-h2/agoncal-application-petstore-ee7)
 sample app in your favorite IDE - IntelliJ | Eclipse | VS Code.
 
 #### Build Pet Store
@@ -88,11 +88,11 @@ bash-3.2$ mvn package -Dmaven.test.skip=true
 ...
 [INFO] --- maven-war-plugin:3.1.0:war (default-war) @ petstoreee7 ---
 [INFO] Packaging webapp
-[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-h2/agoncal-application-petstore-ee7/target/applicationPetstore]
+[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-h2/agoncal-application-petstore-ee7/target/applicationPetstore]
 [INFO] Processing war project
-[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-h2/agoncal-application-petstore-ee7/src/main/webapp]
+[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-h2/agoncal-application-petstore-ee7/src/main/webapp]
 [INFO] Webapp assembled in [440 msecs]
-[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-h2/agoncal-application-petstore-ee7/target/applicationPetstore.war
+[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-h2/agoncal-application-petstore-ee7/target/applicationPetstore.war
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -191,7 +191,7 @@ open https://petstore-java-ee.azurewebsites.net
 
 When you are finished, you can check your results 
 against YOUR code in 
-[migrate-Java-EE-app-to-app-service-linux/initial-postgresql](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-postgresql).
+[migrate-Java-EE-app-to-azure/initial-postgresql](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-postgresql).
 
 ## Build and Deploy Pet Store Powered Using Azure Database for PostgreSQL
 
@@ -390,7 +390,7 @@ reload --use-current-server-config=true
 ```
 
 These JBoss CLI commands, JDBC driver for PostgreSQL and module XML are available in 
-[initial-postgresql/agoncal-application-petstore-ee7/.scripts](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-postgresql/agoncal-application-petstore-ee7/.scripts) 
+[initial-postgresql/agoncal-application-petstore-ee7/.scripts](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-postgresql/agoncal-application-petstore-ee7/.scripts) 
 
 Also, you can directly download the latest version of [JDBC driver for PostgreSQL](https://jdbc.postgresql.org/download.html)
 
@@ -400,7 +400,7 @@ Open an FTP connection to App Service Linux to upload data source artifacts:
 
 ```bash
 pwd
-/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-postgresql/agoncal-application-petstore-ee7
+/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-postgresql/agoncal-application-petstore-ee7
 
 cd .scripts
 
@@ -582,16 +582,16 @@ mvn package -Dmaven.test.skip=true -Ddb=postgresql
 [INFO] ------------------------------------------------------------------------
 [INFO] 
 [INFO] --- copy-rename-maven-plugin:1.0:copy (copy-file) @ petstoreee7 ---
-[INFO] Copied /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-postgresql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence-postgresql.xml to /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-postgresql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence.xml
+[INFO] Copied /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-postgresql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence-postgresql.xml to /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-postgresql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence.xml
 ...
 ...
 [INFO] --- maven-war-plugin:3.1.0:war (default-war) @ petstoreee7 ---
 [INFO] Packaging webapp
-[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-postgresql/agoncal-application-petstore-ee7/target/applicationPetstore]
+[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-postgresql/agoncal-application-petstore-ee7/target/applicationPetstore]
 [INFO] Processing war project
-[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-postgresql/agoncal-application-petstore-ee7/src/main/webapp]
+[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-postgresql/agoncal-application-petstore-ee7/src/main/webapp]
 [INFO] Webapp assembled in [243 msecs]
-[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-postgresql/agoncal-application-petstore-ee7/target/applicationPetstore.war
+[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-postgresql/agoncal-application-petstore-ee7/target/applicationPetstore.war
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -728,7 +728,7 @@ az webapp log tail --name ${WEBAPP_NAME} \
 
 When you are finished, you can check your results 
 against YOUR code in 
-[migrate-Java-EE-app-to-app-service-linux/initial-mysql](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-mysql).
+[migrate-Java-EE-app-to-azure/initial-mysql](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-mysql).
 
 ## Build and Deploy Pet Store Powered Using Azure Database for MySQL
 
@@ -916,7 +916,7 @@ reload --use-current-server-config=true
 ```
 
 These JBoss CLI commands, JDBC driver for MySQL and module XML are available in 
-[initial-mysql/agoncal-application-petstore-ee7/.scripts](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/initial-mysql/agoncal-application-petstore-ee7/.scripts) 
+[initial-mysql/agoncal-application-petstore-ee7/.scripts](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-mysql/agoncal-application-petstore-ee7/.scripts) 
 
 Also, you can directly download [JDBC driver for MySQL](https://dev.mysql.com/downloads/connector/j/). For example:
 
@@ -930,7 +930,7 @@ Open an FTP connection to App Service Linux to upload data source artifacts:
 
 ```bash
 pwd
-/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-mysql/agoncal-application-petstore-ee7
+/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-mysql/agoncal-application-petstore-ee7
 
 cd .scripts
 
@@ -1110,16 +1110,16 @@ bash-3.2$ mvn package -Dmaven.test.skip=true -Ddb=mysql
 [INFO] ------------------------------------------------------------------------
 [INFO]
 [INFO] --- copy-rename-maven-plugin:1.0:copy (copy-file) @ petstoreee7 ---
-[INFO] Copied /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-mysql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence-mysql.xml to /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-mysql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence.xml
+[INFO] Copied /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-mysql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence-mysql.xml to /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-mysql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence.xml
 ...
 ...
 [INFO] --- maven-war-plugin:3.1.0:war (default-war) @ petstoreee7 ---
 [INFO] Packaging webapp
-[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-mysql/agoncal-application-petstore-ee7/target/applicationPetstore]
+[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-mysql/agoncal-application-petstore-ee7/target/applicationPetstore]
 [INFO] Processing war project
-[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-mysql/agoncal-application-petstore-ee7/src/main/webapp]
+[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-mysql/agoncal-application-petstore-ee7/src/main/webapp]
 [INFO] Webapp assembled in [258 msecs]
-[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-app-service-linux/initial-mysql/agoncal-application-petstore-ee7/target/applicationPetstore.war
+[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-mysql/agoncal-application-petstore-ee7/target/applicationPetstore.war
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -1261,7 +1261,7 @@ az webapp log tail --name ${WEBAPP_NAME} \
 
 When you are finished, you can check your results 
 against YOUR code in 
-[migrate-Java-EE-app-to-app-service-linux/complete](https://github.com/Azure-Samples/migrate-Java-EE-app-to-app-service-linux/tree/master/complete).
+[migrate-Java-EE-app-to-azure/complete](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/complete).
 
 ## Scale out the Pet Store app
 
