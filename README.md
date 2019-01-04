@@ -58,7 +58,6 @@ existing Java EE workload to Azure, aka:
       * [Congratulations!](#congratulations)
       * [Resources](#resources)
 
-
 ## What you will migrate to cloud
 
 You will migrate the famous Sun's 2003 Java EE Blue Print 
