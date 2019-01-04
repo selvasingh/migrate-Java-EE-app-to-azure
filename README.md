@@ -12,6 +12,52 @@ existing Java EE workload to Azure, aka:
 - Java EE app to App Service Linux and 
 - App's data to Azure Database for PostgreSQL and or MySQL. 
 
+## Table of Contents
+
+   * [Migrate Java EE App to Azure](#migrate-java-ee-app-to-azure)
+      * [What you will migrate to cloud](#what-you-will-migrate-to-cloud)
+      * [What you will need](#what-you-will-need)
+      * [Getting Started](#getting-started)
+         * [Step ONE - Clone and Prep](#step-one---clone-and-prep)
+      * [Build and Deploy Pet Store Powered Using H2](#build-and-deploy-pet-store-powered-using-h2)
+        * [Build Pet Store](#build-pet-store)
+        * [Deploy to WildFly in App Service Linux](#deploy-to-wildfly-in-app-service-linux)
+        * [Open Pet Store running on App Service in App Service Linux](#open-pet-store-running-on-app-service-in-app-service-linux)
+      * [Build and Deploy Pet Store Powered Using Azure Database for PostgreSQL](#build-and-deploy-pet-store-powered-using-azure-database-for-postgresql)
+        * [Add PostgreSQL Profile](#add-postgresql-profile)
+        * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime)
+        * [Create and Configure Petstore DB in Azure Database for PostgreSQL](#create-and-configure-petstore-db-in-azure-database-for-postgresql)
+        * [Get FTP Deployment Credentials](#get-ftp-deployment-credentials)
+        * [Configure PostgreSQL Data Source](#configure-postgresql-data-source)
+           * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly)
+           * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux)
+           * [Step 3: Set PostgreSQL database connection info in the Web app environment](#step-3-set-postgresql-database-connection-info-in-the-web-app-environment)
+           * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source)
+           * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server)
+        * [Build PetStore to interact with Azure Database for PostgreSQL](#build-petstore-to-interact-with-azure-database-for-postgresql)
+        * [Deploy to App Service Linux](#deploy-to-app-service-linux)
+        * [Open Pet Store running on App Service Linux and interacting with Azure Database for PostgreSQL](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-database-for-postgresql)
+        * [Log into Azure Database for PostgreSQL and Validate Tables were Created and Populated](#log-into-azure-database-for-postgresql-and-validate-tables-were-created-and-populated)
+        * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs)
+      * [Build and Deploy Pet Store Powered Using Azure Database for MySQL](#build-and-deploy-pet-store-powered-using-azure-database-for-mysql)
+        * [Add MySQL Profile](#add-mysql-profile)
+        * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime-1)
+        * [Create and Configure MySQL DB in Azure Database for MySQL](#create-and-configure-mysql-db-in-azure-database-for-mysql)
+        * [Configure MySQL Data Source](#configure-mysql-data-source)
+           * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly-1)
+           * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux-1)
+           * [Step 3: Set MySQL database connection info in the Web app environment](#step-3-set-mysql-database-connection-info-in-the-web-app-environment)
+           * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source-1)
+           * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server-1)
+        * [Build PetStore to interact with Azure Database for MySQL](#build-petstore-to-interact-with-azure-database-for-mysql)
+        * [Deploy to App Service Linux](#deploy-to-app-service-linux-1)
+        * [Open Pet Store running on App Service Linux and interacting with Azure Database for MySQL](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-database-for-mysql)
+        * [Log into Azure Database for MySQL and Validate Tables were Created and Populated](#log-into-azure-database-for-mysql-and-validate-tables-were-created-and-populated)
+        * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs-1)
+      * [Scale out the Pet Store app](#scale-out-the-pet-store-app)
+      * [Congratulations!](#congratulations)
+      * [Resources](#resources)
+
 ## What you will migrate to cloud
 
 You will migrate the famous Sun's 2003 Java EE Blue Print 
