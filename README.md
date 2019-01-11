@@ -165,6 +165,7 @@ export them to your local environment, say using the supplied
 Bash shell script template.
 
 ```bash
+mkdir .scripts
 cp set-env-variables-template.sh .scripts/set-env-variables.sh
 ```
 
@@ -304,8 +305,15 @@ cp set-env-variables-template.sh .scripts/set-env-variables.sh
 ```
 
 Modify `.scripts/set-env-variables.sh` and set Azure Resource Group name, 
-App Service Web App Name, Azure Region, WildFly directory in
+App Service Web App Name, Azure Region, FTP details in
  the local machine and PostgreSQL server info. 
+
+ Get the FTP details by using the webapp and resource group created in the previous H2-based lab, with the following command, which displays profile values
+
+```bash
+az webapp deployment list-publishing-profiles -g <resource-group> -n <webapp>
+```
+
  Then, set environment variables:
  
 ```bash
