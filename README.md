@@ -112,6 +112,7 @@ Or, you can clone from [agoncal-application-petstore-ee7](https://github.com/ago
 
 ```bash
 git clone --recurse-submodules https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure.git
+cd migrate-Java-EE-app-to-azure
 yes | cp -rf .prep/* .
 ```
 
@@ -153,6 +154,11 @@ bash-3.2$ mvn package -Dmaven.test.skip=true
     
 #### Deploy to WildFly in App Service Linux
 
+Login to Azure by using the 'az login' command and follow the instructions that give a device code to be entered in browser
+
+```bash
+az login
+```
 Set environment variables for binding secrets at runtime, 
 particularly Azure resource group and Web app names. You can 
 export them to your local environment, say using the supplied

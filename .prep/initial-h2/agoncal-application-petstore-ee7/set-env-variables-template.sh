@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# WildFly Info
-
-export WILDFLY_HOME=<my path to WildFly on local machine>
-
 # Azure Environment
 
 export RESOURCEGROUP_NAME=<my-resourcegroup>
