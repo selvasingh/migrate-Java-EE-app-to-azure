@@ -306,14 +306,30 @@ cp set-env-variables-template.sh .scripts/set-env-variables.sh
 
 Modify `.scripts/set-env-variables.sh` and set Azure Resource Group name, 
 App Service Web App Name, Azure Region, FTP details in
- the local machine and PostgreSQL server info. 
+ the local machine and PostgreSQL server info. Make sure to pick a password that adheres to the following rules :
+ Your password must be at least 8 characters in length.
+Your password must contain characters from three of the following categories – English uppercase letters, English lowercase letters, numbers (0-9), and non-alphanumeric characters (!, $, #, %, etc.)
+Your password can not contain all or part of the username ( 3 or more consecutive alphanumeric characters) 
 
  Get the FTP details by using the webapp and resource group created in the previous H2-based lab, with the following command, which displays profile values
 
 ```bash
 az webapp deployment list-publishing-profiles -g <resource-group> -n <webapp>
 ```
+{
+   ...
+   ...
+    "profileName": "petstore-java-ee - FTP",
+    "publishMethod": "FTP",
+    "publishUrl": "ftp://waws-prod-bay-063.ftp.azurewebsites.windows.net/site/wwwroot",
+    "userName": "petstore-java-ee\\$petstore-java-ee",
+    "userPWD": "============MASKED===========================================",
+    "webSystem": "WebSites"
+  }
+```
 
+Store FTP host name, say `waws-prod-bay-063.ftp.azurewebsites.windows.net`, user name and user password in .scripts/set-env-variables.sh file.
+ 
  Then, set environment variables:
  
 ```bash
@@ -329,7 +345,7 @@ az postgres server create --resource-group ${RESOURCEGROUP_NAME} \
     --name ${POSTGRES_SERVER_NAME} \
     --location ${REGION} \
     --admin-user ${POSTGRES_SERVER_ADMIN_LOGIN_NAME} \
-    --admin-password ${POSTGRES_PASSWORD} \
+    --admin-password ${POSTGRES_SERVER_ADMIN_PASSWORD} \
     --sku-name GP_Gen4_2 --version 9.6
 
 az postgres server firewall-rule create \
@@ -373,28 +389,6 @@ Azure offers plenty of options to [migrate your data](https://azure.microsoft.co
 to cloud.
 
 Also, for your convenience, there is a [cheat sheet for PostgreSQL CLI](http://www.postgresqltutorial.com/postgresql-cheat-sheet/).
-
-#### Get FTP Deployment Credentials
-
-Use Azure CLI to get FTP deployment credentials:
-
-```bash
-az webapp deployment list-publishing-profiles -g ${RESOURCEGROUP_NAME} -n ${WEBAPP_NAME}
-...
-...
-{
-   ...
-   ...
-    "profileName": "petstore-java-ee - FTP",
-    "publishMethod": "FTP",
-    "publishUrl": "ftp://waws-prod-bay-063.ftp.azurewebsites.windows.net/site/wwwroot",
-    "userName": "petstore-java-ee\\$petstore-java-ee",
-    "userPWD": "============MASKED===========================================",
-    "webSystem": "WebSites"
-  }
-```
-
-Store FTP host name, say `waws-prod-bay-063.ftp.azurewebsites.windows.net`, user name and user password in .scripts/set-env-variables.sh file.
 
 #### Configure PostgreSQL Data Source
 
