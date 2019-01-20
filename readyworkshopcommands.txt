@@ -1,0 +1,161 @@
+### Step ONE - Clone and Prep
+mkdir readyworkshop
+cd readyworkshop
+git clone --recurse-submodules https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure.git
+cd migrate-Java-EE-app-to-azure
+yes | cp -rf .prep/* .
+
+cd initial-h2/agoncal-application-petstore-ee7
+mvn package -Dmaven.test.skip=true
+
+### Deploy to Wildfly in App Service Linux
+az login
+mkdir .scripts
+cp set-env-variables-template.sh .scripts/set-env-variables.sh
+
+### Modify .scripts/set-env-variables.sh
+vi .scripts/set-env-variables.sh
+. .scripts/set-env-variables.sh
+
+### Add in plugins
+<plugins> 
+
+    <!--*************************************************-->
+    <!-- Deploy to WildFly in App Service Linux          -->
+    <!--*************************************************-->
+       
+    <plugin>
+        <groupId>com.microsoft.azure</groupId>
+        <artifactId>azure-webapp-maven-plugin</artifactId>
+        <version>1.5.1</version>
+        <configuration>
+    
+            <!-- Web App information -->
+            <resourceGroup>${RESOURCEGROUP_NAME}</resourceGroup>
+            <appServicePlanName>${WEBAPP_PLAN_NAME}</appServicePlanName>
+            <appName>${WEBAPP_NAME}</appName>
+            <region>${REGION}</region>
+    
+            <!-- Java Runtime Stack for Web App on Linux-->
+            <linuxRuntime>wildfly 14-jre8</linuxRuntime>
+    
+        </configuration>
+    </plugin>
+
+mvn azure-webapp:deploy
+open https://readypetstore.azurewebsites.net
+
+
+### Build and Deploy Petstore using PostgreSQL
+cd ../../initial-postgresql/agoncal-application-petstore-ee7
+
+## Add Postgres Profile in pom.xml
+<profile>
+  <id>postgresql</id>
+  <activation>
+    <property>
+      <name>db</name>
+      <value>postgresql</value>
+    </property>
+  </activation>
+  <build>
+
+    <plugins>
+
+      <!-- copy the correct persistence.xml file -->
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>copy-file</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <sourceFile>${project.basedir}/src/main/resources/META-INF/persistence-postgresql.xml</sourceFile>
+              <destinationFile>${project.basedir}/src/main/resources/META-INF/persistence.xml</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</profile>
+
+## Environment variables
+cp set-env-variables-template.sh .scripts/set-env-variables.sh
+az webapp deployment list-publishing-profiles -g ${RESOURCEGROUP_NAME}  -n ${WEBAPP_NAME}
+
+## grab userName and userPWD values and set in env variables.  REMOVE the extra \ char in userName
+
+##grab IP
+curl ifconfig.me
+
+vi .scripts/set-env-variables.sh
+. .scripts/set-env-variables.sh
+
+### Create and configure Petstore DB in Azure
+az postgres server create --resource-group ${RESOURCEGROUP_NAME} \
+    --name ${POSTGRES_SERVER_NAME} \
+    --location ${REGION} \
+    --admin-user ${POSTGRES_SERVER_ADMIN_LOGIN_NAME} \
+    --admin-password ${POSTGRES_SERVER_ADMIN_PASSWORD} \
+    --sku-name GP_Gen5_2 --version 9.6
+
+az postgres server firewall-rule create \
+    --resource-group ${RESOURCEGROUP_NAME} \
+    --server ${POSTGRES_SERVER_NAME} --name allAzureIPs \
+    --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+
+az postgres server firewall-rule create \
+    --resource-group ${RESOURCEGROUP_NAME} \
+    --server ${POSTGRES_SERVER_NAME} --name myDevBox \
+    --start-ip-address ${IPCONFIG} --end-ip-address ${IPCONFIG}
+
+psql --host=${POSTGRES_SERVER_FULL_NAME} --port=5432 \
+    --username=${POSTGRES_SERVER_ADMIN_FULL_NAME} \
+    --dbname=${POSTGRES_DATABASE_NAME} --set=sslmode=require
+
+### FTP all files
+pwd
+cd .scripts
+ftp
+open 
+ascii
+passive
+
+put startup.sh
+cd site/deployments/tools
+put postgresql-datasource-commands.cli
+put postgresql-module.xml
+binary
+put postgresql-42.2.5.jar
+bye
+
+## Set Postgrees DB connection info in Webapp
+az webapp config appsettings set \
+ --resource-group ${RESOURCEGROUP_NAME} --name ${WEBAPP_NAME} \
+ --settings \
+ POSTGRES_CONNECTION_URL=${POSTGRES_CONNECTION_URL} \
+ POSTGRES_SERVER_ADMIN_PASSWORD=${POSTGRES_SERVER_ADMIN_PASSWORD} \
+ POSTGRES_SERVER_ADMIN_FULL_NAME=${POSTGRES_SERVER_ADMIN_FULL_NAME}
+
+az extension --name webapp
+
+az webapp remote-connection create --resource-group ${RESOURCEGROUP_NAME} --name ${WEBAPP_NAME} &
+
+
+
+
+
+
+
+
+
+
+
+

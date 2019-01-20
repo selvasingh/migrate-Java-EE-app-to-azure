@@ -1,0 +1,12 @@
+1. On trying to add a new Distributed cache for hibernate, system threw a WFLYCTL0369 error - Required capabilities are not available : org.wildfly.clustering.infinispan.transport.channel.hibernate Possible registration points
+/subsystem=infinispan/cache-container="/transport=jgroups"
+
+
+2. For web it was
+org.wildfly.clustering.infinispan.transport.channel.web; Possible registration points
+/subsystem=infinispan/cache-container="/transport=jgroups"
+
+3. For new container
+org.wildfly.clustering.infinispan.transport.channel.remote-http-container
+same : transport=jgroups
+

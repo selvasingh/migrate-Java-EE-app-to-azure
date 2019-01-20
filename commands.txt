@@ -1,0 +1,38 @@
+git clone --recurse-submodules https://github.com/sadigopu/migrate-Java-EE-app-to-azure.git
+
+az vm create --subscription "Java Demos 2" --resource-group vms-for-ready-workshop --name readydevVM --image Ubuntu10.04LTS --admin-username demouser --generate-ssh-keys --location westus
+
+az webapp deployment list-publishing-profiles -g <resource-group> -n <webapp>
+
+  {
+    "SQLServerDBConnectionString": "",
+    "controlPanelLink": "http://windows.azure.com",
+    "databases": null,
+    "destinationAppUrl": "http://readypetstore.azurewebsites.net",
+    "hostingProviderForumLink": "",
+    "msdeploySite": "readypetstore",
+    "mySQLDBConnectionString": "",
+    "profileName": "readypetstore - Web Deploy",
+    "publishMethod": "MSDeploy",
+    "publishUrl": "readypetstore.scm.azurewebsites.net:443",
+    "userName": "$readypetstore",
+    "userPWD": "mJCzo4y7rjsP1nD4g8rg2lmx8C2omQEpufKsrwXHrNSm9vBvbshxTAKTpBXf",
+    "webSystem": "WebSites"
+  },
+  {
+    "SQLServerDBConnectionString": "",
+    "controlPanelLink": "http://windows.azure.com",
+    "databases": null,
+    "destinationAppUrl": "http://readypetstore.azurewebsites.net",
+    "ftpPassiveMode": "True",
+    "hostingProviderForumLink": "",
+    "mySQLDBConnectionString": "",
+    "profileName": "readypetstore - FTP",
+    "publishMethod": "FTP",
+    "publishUrl": "ftp://waws-prod-bay-109.ftp.azurewebsites.windows.net/site/wwwroot",
+    "userName": "readypetstore\\$readypetstore",
+    "userPWD": "mJCzo4y7rjsP1nD4g8rg2lmx8C2omQEpufKsrwXHrNSm9vBvbshxTAKTpBXf",
+    "webSystem": "WebSites"
+  }
+
+az postgres server create --resource-group ${RESOURCEGROUP_NAME} --name ${POSTGRES_SERVER_NAME} --location ${REGION} --admin-user ${POSTGRES_SERVER_ADMIN_LOGIN_NAME} --admin-password ${POSTGRES_SERVER_ADMIN_PASSWORD} --sku-name GP_Gen5_2 --version 9.6

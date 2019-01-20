@@ -90,7 +90,6 @@ In addition, you will need the following:
 | [Java 8](https://www.azul.com/downloads/azure-only/zulu/) 
 | [Maven 3](http://maven.apache.org/) 
 | [Git](https://github.com/) 
-| [WildFly](http://wildfly.org/downloads/)
 | [PostgreSQL CLI](https://www.postgresql.org/docs/current/app-psql.html)
 | [MySQL CLI](https://dev.mysql.com/downloads/shell/)
 |
@@ -330,6 +329,11 @@ az webapp deployment list-publishing-profiles -g <resource-group> -n <webapp>
 
 Store FTP host name, say `waws-prod-bay-063.ftp.azurewebsites.windows.net`, user name and user password in .scripts/set-env-variables.sh file.
  
+ Note the ip of the local machine
+```bash
+curl ifconfig.me
+```
+
  Then, set environment variables:
  
 ```bash
@@ -353,10 +357,12 @@ az postgres server firewall-rule create \
     --server ${POSTGRES_SERVER_NAME} --name allAzureIPs \
     --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
 
+curl ifconfig.me
+
 az postgres server firewall-rule create \
     --resource-group ${RESOURCEGROUP_NAME} \
     --server ${POSTGRES_SERVER_NAME} --name myDevBox \
-    --start-ip-address 98.237.176.135 --end-ip-address 98.237.176.135
+    --start-ip-address ${IPCONFIG} --end-ip-address ${IPCONFIG}
 
 psql --host=${POSTGRES_SERVER_FULL_NAME} --port=5432 \
     --username=${POSTGRES_SERVER_ADMIN_FULL_NAME} \
@@ -472,6 +478,8 @@ Password:
 Remote system type is Windows_NT.
 ftp> ascii
 200 Type set to A.
+
+ftp> passive
 
 # Upload startup.sh to /home directory
 ftp> put startup.sh
@@ -874,7 +882,7 @@ az mysql server firewall-rule create --name allAzureIPs \
 az mysql server firewall-rule create --name myDevBox \
  --server ${MYSQL_SERVER_NAME} \
  --resource-group ${RESOURCEGROUP_NAME} \
- --start-ip-address 98.237.176.135 --end-ip-address 98.237.176.135
+ --start-ip-address ${IPCONFIG} --end-ip-address ${IPCONFIG}
 
 // increase connection timeout
 az mysql server configuration set --name wait_timeout \
