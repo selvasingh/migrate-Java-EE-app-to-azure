@@ -36,3 +36,6 @@ export MYSQL_SERVER_ADMIN_FULL_NAME=${MYSQL_SERVER_ADMIN_LOGIN_NAME}\@${MYSQL_SE
 export FTP_HOST=<my ftp host>
 export FTP_USERNAME=<my ftp user name>
 export FTP_PASSWORD=<my ftp password>
+
+#IPCONFIG
+export IPCONFIG=<my devbox>

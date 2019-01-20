@@ -26,3 +26,6 @@ export FTP_HOST=<my ftp host>
 export FTP_USERNAME=<my ftp user name>
 export FTP_PASSWORD=<my ftp password>
 
+#IPCONFIG
+export IPCONFIG=52.247.195.77
+
