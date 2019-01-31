@@ -38,4 +38,4 @@ export FTP_USERNAME=<my ftp user name>
 export FTP_PASSWORD=<my ftp password>
 
 #IPCONFIG
-export IPCONFIG=<my devbox>
+export DEVBOX_IP_ADDRESS=<my devbox>

@@ -362,7 +362,7 @@ curl ifconfig.me
 az postgres server firewall-rule create \
     --resource-group ${RESOURCEGROUP_NAME} \
     --server ${POSTGRES_SERVER_NAME} --name myDevBox \
-    --start-ip-address ${IPCONFIG} --end-ip-address ${IPCONFIG}
+    --start-ip-address ${DEVBOX_IP_ADDRESS} --end-ip-address ${DEVBOX_IP_ADDRESS}
 
 psql --host=${POSTGRES_SERVER_FULL_NAME} --port=5432 \
     --username=${POSTGRES_SERVER_ADMIN_FULL_NAME} \
@@ -882,7 +882,7 @@ az mysql server firewall-rule create --name allAzureIPs \
 az mysql server firewall-rule create --name myDevBox \
  --server ${MYSQL_SERVER_NAME} \
  --resource-group ${RESOURCEGROUP_NAME} \
- --start-ip-address ${IPCONFIG} --end-ip-address ${IPCONFIG}
+ --start-ip-address ${DEVBOX_IP_ADDRESS} --end-ip-address ${DEVBOX_IP_ADDRESS}
 
 // increase connection timeout
 az mysql server configuration set --name wait_timeout \
