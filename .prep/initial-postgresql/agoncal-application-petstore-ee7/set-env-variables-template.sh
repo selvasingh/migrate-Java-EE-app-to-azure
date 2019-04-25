@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# WildFly Info
-
-export WILDFLY_HOME=<my path to WildFly on local machine>
-
 # Azure Environment
 
 export RESOURCEGROUP_NAME=<my-resourcegroup>
@@ -29,4 +25,7 @@ export POSTGRES_SERVER_ADMIN_FULL_NAME=${POSTGRES_SERVER_ADMIN_LOGIN_NAME}@${POS
 export FTP_HOST=<my ftp host>
 export FTP_USERNAME=<my ftp user name>
 export FTP_PASSWORD=<my ftp password>
+
+#IPCONFIG
+export DEVBOX_IP_ADDRESS=<my devbox ip>
 
