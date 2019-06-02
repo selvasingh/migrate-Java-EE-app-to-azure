@@ -1742,7 +1742,11 @@ open https://petstore-java-ee.azurewebsites.net
 
 ```bash
 # Show tables in SQL Database
-sqlcmd -S ${SQL_SERVER_FULL_NAME} -d ${SQL_DATABASE_NAME} -U ${SQL_SERVER_ADMIN_FULL_NAME} -P ${SQL_SERVER_ADMIN_PASSWORD} -Q "SELECT name, id, crdate FROM SYSOBJECTS WHERE xtype = 'U'"
+sqlcmd -S ${SQL_SERVER_FULL_NAME} \
+    -d ${SQL_DATABASE_NAME} \
+    -U ${SQL_SERVER_ADMIN_FULL_NAME} \
+    -P ${SQL_SERVER_ADMIN_PASSWORD} \
+    -Q "SELECT name, id, crdate FROM SYSOBJECTS WHERE xtype = 'U'"
 
 --------------------- ----------- -----------------------
 Category                 18099105 2019-05-31 14:41:52.280
@@ -1758,7 +1762,11 @@ t_order_order_line      258099960 2019-05-31 14:41:52.483
 
 # Show contents in category table
 
-sqlcmd -S ${SQL_SERVER_FULL_NAME} -d ${SQL_DATABASE_NAME} -U ${SQL_SERVER_ADMIN_FULL_NAME} -P ${SQL_SERVER_ADMIN_PASSWORD} -Q "select name from category"
+sqlcmd -S ${SQL_SERVER_FULL_NAME} \
+    -d ${SQL_DATABASE_NAME} \
+    -U ${SQL_SERVER_ADMIN_FULL_NAME} \
+    -P ${SQL_SERVER_ADMIN_PASSWORD} \
+    -Q "select name from category"
 
 name                          
 ------------------------------
