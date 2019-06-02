@@ -1404,12 +1404,12 @@ source .scripts/set-env-variables.sh
 
 #### Create and Configure SQL DB in Azure SQL Database
 
+Install the Azure CLI `db-up` extension:
 ```bash
 az extension add --name db-up
 ```
 
 Create a Petstore DB using Azure CLI and sql CLI:
-
 ```bash
 az sql up --resource-group ${RESOURCEGROUP_NAME} \
  --server-name ${SQL_SERVER_NAME} \
