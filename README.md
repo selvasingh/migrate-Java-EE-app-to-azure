@@ -10,50 +10,65 @@ This guide walks you through the process of migrating an
 existing Java EE workload to Azure, aka:
  
 - Java EE app to App Service Linux and 
-- App's data to Azure Database for PostgreSQL and or MySQL. 
+- App's data to Azure Database for PostgreSQL, MySQL and or SQL Database. 
 
 ## Table of Contents
 
    * [Migrate Java EE App to Azure](#migrate-java-ee-app-to-azure)
+      * [Table of Contents](#table-of-contents)
       * [What you will migrate to cloud](#what-you-will-migrate-to-cloud)
       * [What you will need](#what-you-will-need)
       * [Getting Started](#getting-started)
          * [Step ONE - Clone and Prep](#step-one---clone-and-prep)
       * [Build and Deploy Pet Store Powered Using H2](#build-and-deploy-pet-store-powered-using-h2)
-        * [Build Pet Store](#build-pet-store)
-        * [Deploy to WildFly in App Service Linux](#deploy-to-wildfly-in-app-service-linux)
-        * [Open Pet Store running on App Service in App Service Linux](#open-pet-store-running-on-app-service-in-app-service-linux)
+         * [Build Pet Store](#build-pet-store)
+         * [Deploy to WildFly in App Service Linux](#deploy-to-wildfly-in-app-service-linux)
+         * [Open Pet Store running on App Service in App Service Linux](#open-pet-store-running-on-app-service-in-app-service-linux)
       * [Build and Deploy Pet Store Powered Using Azure Database for PostgreSQL](#build-and-deploy-pet-store-powered-using-azure-database-for-postgresql)
-        * [Add PostgreSQL Profile](#add-postgresql-profile)
-        * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime)
-        * [Create and Configure Petstore DB in Azure Database for PostgreSQL](#create-and-configure-petstore-db-in-azure-database-for-postgresql)
-        * [Get FTP Deployment Credentials](#get-ftp-deployment-credentials)
-        * [Configure PostgreSQL Data Source](#configure-postgresql-data-source)
-           * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly)
-           * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux)
-           * [Step 3: Set PostgreSQL database connection info in the Web app environment](#step-3-set-postgresql-database-connection-info-in-the-web-app-environment)
-           * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source)
-           * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server)
-        * [Build PetStore to interact with Azure Database for PostgreSQL](#build-petstore-to-interact-with-azure-database-for-postgresql)
-        * [Deploy to App Service Linux](#deploy-to-app-service-linux)
-        * [Open Pet Store running on App Service Linux and interacting with Azure Database for PostgreSQL](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-database-for-postgresql)
-        * [Log into Azure Database for PostgreSQL and Validate Tables were Created and Populated](#log-into-azure-database-for-postgresql-and-validate-tables-were-created-and-populated)
-        * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs)
+         * [Add PostgreSQL Profile](#add-postgresql-profile)
+         * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime)
+         * [Create and Configure Petstore DB in Azure Database for PostgreSQL](#create-and-configure-petstore-db-in-azure-database-for-postgresql)
+         * [Configure PostgreSQL Data Source](#configure-postgresql-data-source)
+            * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly)
+            * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux)
+            * [Step 3: Set PostgreSQL database connection info in the Web app environment](#step-3-set-postgresql-database-connection-info-in-the-web-app-environment)
+            * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source)
+            * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server)
+         * [Build PetStore to interact with Azure Database for PostgreSQL](#build-petstore-to-interact-with-azure-database-for-postgresql)
+         * [Deploy to App Service Linux](#deploy-to-app-service-linux)
+         * [Open Pet Store running on App Service Linux and interacting with Azure Database for PostgreSQL](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-database-for-postgresql)
+         * [Log into Azure Database for PostgreSQL and Validate Tables were Created and Populated](#log-into-azure-database-for-postgresql-and-validate-tables-were-created-and-populated)
+         * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs)
       * [Build and Deploy Pet Store Powered Using Azure Database for MySQL](#build-and-deploy-pet-store-powered-using-azure-database-for-mysql)
-        * [Add MySQL Profile](#add-mysql-profile)
-        * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime-1)
-        * [Create and Configure MySQL DB in Azure Database for MySQL](#create-and-configure-mysql-db-in-azure-database-for-mysql)
-        * [Configure MySQL Data Source](#configure-mysql-data-source)
-           * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly-1)
-           * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux-1)
-           * [Step 3: Set MySQL database connection info in the Web app environment](#step-3-set-mysql-database-connection-info-in-the-web-app-environment)
-           * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source-1)
-           * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server-1)
-        * [Build PetStore to interact with Azure Database for MySQL](#build-petstore-to-interact-with-azure-database-for-mysql)
-        * [Deploy to App Service Linux](#deploy-to-app-service-linux-1)
-        * [Open Pet Store running on App Service Linux and interacting with Azure Database for MySQL](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-database-for-mysql)
-        * [Log into Azure Database for MySQL and Validate Tables were Created and Populated](#log-into-azure-database-for-mysql-and-validate-tables-were-created-and-populated)
-        * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs-1)
+         * [Add MySQL Profile](#add-mysql-profile)
+         * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime-1)
+         * [Create and Configure MySQL DB in Azure Database for MySQL](#create-and-configure-mysql-db-in-azure-database-for-mysql)
+         * [Configure MySQL Data Source](#configure-mysql-data-source)
+            * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly-1)
+            * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux-1)
+            * [Step 3: Set MySQL database connection info in the Web app environment](#step-3-set-mysql-database-connection-info-in-the-web-app-environment)
+            * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source-1)
+            * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server-1)
+         * [Build PetStore to interact with Azure Database for MySQL](#build-petstore-to-interact-with-azure-database-for-mysql)
+         * [Deploy to App Service Linux](#deploy-to-app-service-linux-1)
+         * [Open Pet Store running on App Service Linux and interacting with Azure Database for MySQL](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-database-for-mysql)
+         * [Log into Azure Database for MySQL and Validate Tables were Created and Populated](#log-into-azure-database-for-mysql-and-validate-tables-were-created-and-populated)
+         * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs-1)
+      * [Build and Deploy Pet Store Powered Using Azure SQL Database](#build-and-deploy-pet-store-powered-using-azure-sql-database)
+         * [Add SQL Database Profile](#add-sql-database-profile)
+         * [Set environment variables for binding secrets at runtime](#set-environment-variables-for-binding-secrets-at-runtime-2)
+         * [Create and Configure SQL DB in Azure SQL Database](#create-and-configure-sql-db-in-azure-sql-database)
+         * [Configure SQL Database Data Source](#configure-sql-database-data-source)
+            * [Step 1: Understand How to configure WildFly](#step-1-understand-how-to-configure-wildfly-2)
+            * [Step 2: Upload data source artifacts to App Service linux](#step-2-upload-data-source-artifacts-to-app-service-linux-2)
+            * [Step 3: Set SQL Database connection info in the Web app environment](#step-3-set-sql-database-connection-info-in-the-web-app-environment)
+            * [Step 4: Test the JBoss/WildFly CLI commands to configure data source](#step-4-test-the-jbosswildfly-cli-commands-to-configure-data-source-2)
+            * [Step 5: Restart the remote WildFly app server](#step-5-restart-the-remote-wildfly-app-server-2)
+         * [Build PetStore to interact with Azure SQL Database](#build-petstore-to-interact-with-azure-sql-database)
+         * [Deploy to App Service Linux](#deploy-to-app-service-linux-2)
+         * [Open Pet Store running on App Service Linux and interacting with Azure SQL Database](#open-pet-store-running-on-app-service-linux-and-interacting-with-azure-sql-database)
+         * [Log into Azure SQL Database and Validate Tables were Created and Populated](#log-into-azure-sql-database-and-validate-tables-were-created-and-populated)
+         * [Trouble Shoot Petstore on Azure by Viewing Logs](#trouble-shoot-petstore-on-azure-by-viewing-logs-2)
       * [Scale out the Pet Store app](#scale-out-the-pet-store-app)
       * [Congratulations!](#congratulations)
       * [Resources](#resources)
@@ -73,7 +88,7 @@ sample app. The most recent incarnation of the sample uses:
 - Twitter Bootstrap (Bootstrap 3.x, JQuery 2.x, PrimeFaces 6.x) 
 
 Upon migration, you will power the app using 
-Azure Database for PostgreSQL and MySQL.
+Azure Database for PostgreSQL, MySQL and or SQL Database.
 
 ## What you will need
 
@@ -189,7 +204,7 @@ Pet Store to WildFly in App Service Linux:
     <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-webapp-maven-plugin</artifactId>
-        <version>1.5.1</version>
+        <version>1.6.0</version>
         <configuration>
     
             <!-- Web App information -->
@@ -218,7 +233,7 @@ mvn azure-webapp:deploy
 [INFO] Building Petstore application using Java EE 7 7.0
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] --- azure-webapp-maven-plugin:1.5.1:deploy (default-cli) @ petstoreee7 ---
+[INFO] --- azure-webapp-maven-plugin:1.6.0:deploy (default-cli) @ petstoreee7 ---
 [INFO] Authenticate with Azure CLI 2.0
 [INFO] Target Web App doesn't exist. Creating a new one...
 [INFO] Creating App Service Plan 'petstore-java-ee-appservice-plan'...
@@ -677,7 +692,7 @@ mvn azure-webapp:deploy
 [INFO] Building Petstore application using Java EE 7 7.0
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] --- azure-webapp-maven-plugin:1.5.1:deploy (default-cli) @ petstoreee7 ---
+[INFO] --- azure-webapp-maven-plugin:1.6.0:deploy (default-cli) @ petstoreee7 ---
 [INFO] Authenticate with Azure CLI 2.0
 [INFO] Updating target Web App...
 [INFO] Successfully updated Web App.
@@ -1164,7 +1179,7 @@ For additional info, please refer to:
 #### Build PetStore to interact with Azure Database for MySQL
 
 ```bash
-# Use the Maven profile for PostgreSQL to build
+# Use the Maven profile for MySQL to build
 
 bash-3.2$ mvn package -Dmaven.test.skip=true -Ddb=mysql
 [INFO] Scanning for projects...
@@ -1205,7 +1220,7 @@ mvn azure-webapp:deploy
 [INFO] Building Petstore application using Java EE 7 7.0
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- azure-webapp-maven-plugin:1.5.1:deploy (default-cli) @ petstoreee7 ---
+[INFO] --- azure-webapp-maven-plugin:1.6.0:deploy (default-cli) @ petstoreee7 ---
 [INFO] Authenticate with Azure CLI 2.0
 [INFO] Updating target Web App...
 [INFO] Successfully updated Web App.
@@ -1323,6 +1338,494 @@ az webapp log tail --name ${WEBAPP_NAME} \
 
 ```
 
+## Build and Deploy Pet Store Powered Using Azure SQL Database
+
+Start your next leg of your journey ... change directory:
+
+```bash
+cd ../../initial-sql/agoncal-application-petstore-ee7
+```
+
+#### Add SQL Database Profile
+
+Add a new profile for sql in `pom.xml`:
+
+```xml
+<profile>
+  <id>sql</id>
+  <activation>
+  <property>
+    <name>db</name>
+    <value>sql</value>
+  </property>
+  </activation>
+  <build>
+
+    <plugins>
+
+      <!-- copy the correct persistence.xml file -->
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>copy-file</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <sourceFile>${project.basedir}/src/main/resources/META-INF/persistence-sql.xml</sourceFile>
+              <destinationFile>${project.basedir}/src/main/resources/META-INF/persistence.xml</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</profile>
+``` 
+
+#### Set environment variables for binding secrets at runtime
+
+```bash
+cp set-env-variables-template.sh .scripts/set-env-variables.sh
+```
+
+Modify `.scripts/set-env-variables.sh` and set Azure Resource Group name, 
+App Service Web App Name, Azure Region, WildFly directory in
+ the local machine, FTP deployment credentials and SQL Database info. 
+ Then, set environment variables:
+ 
+```bash
+source .scripts/set-env-variables.sh
+```
+
+#### Create and Configure SQL DB in Azure SQL Database
+
+Install the Azure CLI `db-up` extension:
+```bash
+az extension add --name db-up
+```
+
+Create a Petstore DB using Azure CLI and sql CLI:
+```bash
+az sql up --resource-group ${RESOURCEGROUP_NAME} \
+ --server-name ${SQL_SERVER_NAME} \
+ --database-name ${SQL_DATABASE_NAME} --admin-user ${SQL_SERVER_ADMIN_LOGIN_NAME} \
+ --admin-password ${SQL_SERVER_ADMIN_PASSWORD} \
+ --location ${REGION}
+
+Creating SQL Server 'petstore-sql-0601' in group 'e2e-java-ee'...
+Configuring server firewall rule, 'azure-access', to accept connections from all Azure resources...
+Creating SQL database 'sqldb'...
+Checking your ip address...
+Configuring server firewall rule, 'devbox', to allow for your ip address: 98.225.36.126
+If SQL server declines your IP address, please create a new firewall rule using:
+    `az sql server firewall-rule create -g e2e-java-ee -s petstore-sql-0601 -n {rule_name} --start-ip-address {ip_address} --end-ip-address {ip_address}`
+Successfully Connected to SQL Database.
+Ran Database Query: `CREATE USER root WITH PASSWORD = "======= MASKED ======="
+Ran Database Query: `GRANT ALL TO root`
+...
+...
+
+```
+
+When you migrate Java workloads to cloud, you will be considering moving data to cloud. 
+To accelerate your transition to cloud, 
+Azure offers plenty of options to [migrate your data](https://azure.microsoft.com/en-us/services/database-migration/) 
+to cloud.
+
+Also, for your convenience, there is a [cheat sheet for sqlcmd CLI](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility).
+
+#### Configure SQL Database Data Source
+
+There are 5 steps to configure a data source. These steps are similar to configuring data sources 
+in any on premise Java EE app servers:
+
+##### Step 1: Understand How to configure WildFly
+
+In App Service, each instance of an app server is stateless. Therefore, each instance must be 
+configured on startup to support a Wildfly configuration needed by your application. You can configure at 
+startup by supplying a startup Bash script that calls [JBoss/WildFly CLI commands](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface) to setup data sources, messaging 
+ providers and any other dependencies. We will create a startup.sh script and place it in the `/home` 
+ directory of the Web app. The script will:
+ 
+Install a WildFly module:
+
+```bash
+# where resources point to JDBC driver for SQL Database
+# and module xml points to module description, see below
+
+module add --name=com.microsoft --resources=/home/site/deployments/tools/mssql-jdbc-7.2.1.jre8.jar --module-xml=/home/site/deployments/tools/mssql-module.xml
+```
+Where `mssql-module.xml` describes the module:
+
+```xml
+<?xml version="1.0" ?>
+<module xmlns="urn:jboss:module:1.1" name="com.microsoft">
+  <resources>
+	<resource-root path="/home/site/deployments/tools/mssql-jdbc-7.2.1.jre8.jar"/>
+  </resources>
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
+  </dependencies>
+</module>
+```
+ 
+Add a JDBC driver for SQL Database:
+
+```bash
+/subsystem=datasources/jdbc-driver=sqlserver:add(driver-name="sqlserver",driver-module-name="com.microsoft",driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver,driver-datasource-class-name=com.microsoft.sqlserver.jdbc.SQLServerDataSource)
+```
+
+Install a data source by using the data-source shortcut command:
+
+```bash
+data-source add --name=sqlDS --jndi-name=java:jboss/datasources/sqlDS --driver-name=sqlserver --connection-url=${SQL_CONNECTION_URL,env.SQL_CONNECTION_URL:example} --validate-on-match=true --background-validation=false --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLExceptionSorter
+```
+
+A server reload may be required for the changes to take effect:
+
+```bash
+reload --use-current-server-config=true
+```
+
+These JBoss CLI commands, JDBC driver for SQL Database and module XML are available in 
+[initial-sql/agoncal-application-petstore-ee7/.scripts](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/initial-sql/agoncal-application-petstore-ee7/.scripts) 
+
+Also, you can directly download [JDBC driver for SQL Database](https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server). For example:
+
+
+##### Step 2: Upload data source artifacts to App Service linux
+
+Open an FTP connection to App Service Linux to upload data source artifacts:
+
+```bash
+pwd
+/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-sql/agoncal-application-petstore-ee7
+
+cd .scripts
+
+ftp
+ftp> open waws-prod-bay-063.ftp.azurewebsites.windows.net
+Trying 23.99.87.125...
+Connected to waws-prod-bay-063.drip.azurewebsites.windows.net.
+220 Microsoft FTP Service
+Name (waws-prod-bay-063.ftp.azurewebsites.windows.net:selvasingh):
+331 Password required
+Password:
+230 User logged in.
+Remote system type is Windows_NT.
+ftp> pwd
+Remote directory: /
+ftp> ascii
+200 Type set to A.
+ftp> put startup.sh
+local: startup.sh remote: startup.sh
+229 Entering Extended Passive Mode (|||10199|)
+125 Data connection already open; Transfer starting.
+100% |*******************************************************|   125       21.36 KiB/s    --:-- ETA
+226 Transfer complete.
+125 bytes sent in 00:00 (2.71 KiB/s)
+ftp> cd site/deployments/tools
+250 CWD command successful.
+ftp> put mssql-datasource-commands.cli
+local: mssql-datasource-commands.cli remote: mssql-datasource-commands.cli
+229 Entering Extended Passive Mode (|||10200|)
+125 Data connection already open; Transfer starting.
+100% |*******************************************************|  1751      301.42 KiB/s    --:-- ETA
+226 Transfer complete.
+1751 bytes sent in 00:00 (35.69 KiB/s)
+ftp> put mssql-module.xml
+local: mssql-module.xml remote: mssql-module.xml
+229 Entering Extended Passive Mode (|||10201|)
+125 Data connection already open; Transfer starting.
+100% |*******************************************************|   305       51.39 KiB/s    --:-- ETA
+226 Transfer complete.
+305 bytes sent in 00:00 (7.07 KiB/s)
+ftp> bin
+200 Type set to I.
+ftp> put mssql-jdbc-7.2.1.jre8.jar
+local: mssql-jdbc-7.2.1.jre8.jar remote: mssql-jdbc-7.2.1.jre8.jar
+229 Entering Extended Passive Mode (|||10202|)
+125 Data connection already open; Transfer starting.
+100% |*******************************************************|  1135 KiB    1.62 MiB/s    00:00 ETA
+226 Transfer complete.
+1162710 bytes sent in 00:00 (1.48 MiB/s)
+ftp> bye
+221 Goodbye.
+```
+
+##### Step 3: Set SQL Database connection info in the Web app environment
+
+Use Azure CLI to set database connection info:
+   
+```bash
+
+az webapp config appsettings set  \
+    --resource-group ${RESOURCEGROUP_NAME} \
+    --name ${WEBAPP_NAME}  \
+    --settings  SQL_CONNECTION_URL=${SQL_CONNECTION_URL}
+
+[
+  {
+    "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+    "slotSetting": false,
+    "value": "3"
+  },
+  {
+    "name": "SQL_CONNECTION_URL",
+    "slotSetting": false,
+    "value": "======= MASKED ======="
+  }
+]
+```
+
+##### Step 4: Test the JBoss/WildFly CLI commands to configure data source
+
+You can test Bash script for configuring data source by running them on App Service Linux 
+by [opening an SSH connection from your development machine](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-ssh-support#open-ssh-session-from-remote-shell):
+
+```bash
+# ======== first terminal window =========
+az webapp remote-connection create --resource-group ${RESOURCEGROUP_NAME} --name ${WEBAPP_NAME} &
+[1] 10851
+bash-3.2$ Auto-selecting port: 54155
+SSH is available { username: root, password: Docker! }
+Start your favorite client and connect to port 54155
+Websocket tracing disabled, use --verbose flag to enable
+Successfully connected to local server..
+
+ssh root@localhost -p 58386
+The authenticity of host '[localhost]:58386 ([127.0.0.1]:58386)' can't be established.
+ECDSA key fingerprint is SHA256:7EHlhnWmPC600borWmiBMP43SdXIHedlk4sKIfJKu3I.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '[localhost]:58386' (ECDSA) to the list of known hosts.
+root@localhost's password:
+  _____
+  /  _  \ __________ _________   ____
+ /  /_\  \___   /  |  \_  __ \_/ __ \
+/    |    \/    /|  |  /|  | \/\  ___/
+\____|__  /_____ \____/ |__|    \___  >
+        \/      \/                  \/
+A P P   S E R V I C E   O N   L I N U X
+
+Documentation: http://aka.ms/webapp-linux
+ee72972be508:/home#
+
+# ======== run JBoss/WildFly CLI commands to configure a data source ===========
+
+ee72972be508:/home# source startup.sh
+Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
+"Configuring sqlDS ==================="
+"Installing MSSQL module"
+"Installing MSSQL driver"
+"Installing MSSQL datasource"
+The batch executed successfully
+ee72972be508:/home# /opt/jboss/wildfly/bin/jboss-cli.sh -c
+Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
+
+[standalone@localhost:9990 /] /subsystem=datasources/data-source=sqlDS:test-connection-in-pool()
+{
+    "outcome" => "success",
+    "result" => [true]
+}
+
+[standalone@localhost:9990 /] exit
+``` 
+
+##### Step 5: Restart the remote WildFly app server
+
+Use Azure CLI to restart the remote WildFly app server:
+   
+```bash
+az webapp stop -g ${RESOURCEGROUP_NAME} -n ${WEBAPP_NAME}
+az webapp start -g ${RESOURCEGROUP_NAME} -n ${WEBAPP_NAME}
+```
+
+For additional info, please refer to: 
+
+- [JBoss Data Source Management](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/datasource_management).
+- [JBoss/WildFly CLI Guide](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface)
+- [Open SSH session from your development machine to App Service Linux](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-ssh-support#open-ssh-session-from-remote-shell)
+
+
+#### Build PetStore to interact with Azure SQL Database
+
+```bash
+# Use the Maven profile for Azure SQL Database to build
+
+mvn package -Dmaven.test.skip=true -Ddb=sql
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Petstore application using Java EE 7 7.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- copy-rename-maven-plugin:1.0:copy (copy-file) @ petstoreee7 ---
+[INFO] Copied /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-sql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence-sql.xml to /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-sql/agoncal-application-petstore-ee7/src/main/resources/META-INF/persistence.xml
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ petstoreee7 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 14 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ petstoreee7 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- swagger-maven-plugin:3.1.6:generate (default) @ petstoreee7 ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ petstoreee7 ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ petstoreee7 ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ petstoreee7 ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- maven-war-plugin:3.1.0:war (default-war) @ petstoreee7 ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [petstoreee7] in [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-sql/agoncal-application-petstore-ee7/target/applicationPetstore]
+[INFO] Processing war project
+[INFO] Copying webapp resources [/Users/selvasingh/migrate-Java-EE-app-to-azure/initial-sql/agoncal-application-petstore-ee7/src/main/webapp]
+[INFO] Webapp assembled in [394 msecs]
+[INFO] Building war: /Users/selvasingh/migrate-Java-EE-app-to-azure/initial-sql/agoncal-application-petstore-ee7/target/applicationPetstore.war
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3.850 s
+[INFO] Finished at: 2019-06-01T17:47:53-07:00
+[INFO] Final Memory: 22M/338M
+[INFO] ------------------------------------------------------------------------
+```
+
+#### Deploy to App Service Linux 
+
+Deploy to WildFly in App Service Linux:
+
+```bash
+mvn azure-webapp:deploy
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Petstore application using Java EE 7 7.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- azure-webapp-maven-plugin:1.6.0:deploy (default-cli) @ petstoreee7 ---
+[INFO] Authenticate with Azure CLI 2.0
+[INFO] Updating target Web App...
+[INFO] Successfully updated Web App.
+[INFO] Trying to deploy artifact to petstore-java-ee...
+[INFO] Deploying the war file...
+[INFO] Successfully deployed the artifact to https://petstore-java-ee.azurewebsites.net
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 01:25 min
+[INFO] Finished at: 2019-06-01T17:54:14-07:00
+[INFO] Final Memory: 50M/635M
+[INFO] ------------------------------------------------------------------------
+```
+
+#### Open Pet Store running on App Service Linux and interacting with Azure SQL Database
+
+```bash
+open https://petstore-java-ee.azurewebsites.net
+```
+
+![](./media/YAPS-PetStore-on-h2-small.jpg)
+
+#### Log into Azure SQL Database and Validate Tables were Created and Populated
+
+```bash
+# Show tables in SQL Database
+sqlcmd -S ${SQL_SERVER_FULL_NAME} \
+    -d ${SQL_DATABASE_NAME} \
+    -U ${SQL_SERVER_ADMIN_FULL_NAME} \
+    -P ${SQL_SERVER_ADMIN_PASSWORD} \
+    -Q "SELECT name, id, crdate FROM SYSOBJECTS WHERE xtype = 'U'"
+
+--------------------- ----------- -----------------------
+Category                 18099105 2019-05-31 14:41:52.280
+Country                  50099219 2019-05-31 14:41:52.320
+Customer                 82099333 2019-05-31 14:41:52.330
+Item                    114099447 2019-05-31 14:41:52.347
+order_line              146099561 2019-05-31 14:41:52.373
+Product                 194099732 2019-05-31 14:41:52.390
+purchase_order          226099846 2019-05-31 14:41:52.427
+t_order_order_line      258099960 2019-05-31 14:41:52.483
+
+(8 rows affected)
+
+# Show contents in category table
+
+sqlcmd -S ${SQL_SERVER_FULL_NAME} \
+    -d ${SQL_DATABASE_NAME} \
+    -U ${SQL_SERVER_ADMIN_FULL_NAME} \
+    -P ${SQL_SERVER_ADMIN_PASSWORD} \
+    -Q "select name from category"
+
+name                          
+------------------------------
+Fish                          
+Dogs                          
+Reptiles                      
+Cats                          
+Birds                         
+
+(5 rows affected)
+
+```
+
+#### Trouble Shoot Petstore on Azure by Viewing Logs
+
+Open Java Web app remote log stream from a local machine:
+
+```bash
+az webapp log tail --name ${WEBAPP_NAME} \
+ --resource-group ${RESOURCEGROUP_NAME}
+
+2018-12-22T00:47:48  Welcome, you are now connected to log-streaming service.
+2018-12-22T00:41:45.064280703Z   _____                               
+2018-12-22T00:41:45.064325203Z   /  _  \ __________ _________   ____  
+2018-12-22T00:41:45.064331403Z  /  /_\  \___   /  |  \_  __ \_/ __ \ 
+2018-12-22T00:41:45.064335603Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2018-12-22T00:41:45.064339403Z \____|__  /_____ \____/ |__|    \___  >
+2018-12-22T00:41:45.064343503Z         \/      \/                  \/ 
+2018-12-22T00:41:45.064347403Z A P P   S E R V I C E   O N   L I N U X  
+...
+...
+
+2019-06-02T00:55:35.520469647Z 00:55:35,520 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 14.0.1.Final (WildFly Core 6.0.2.Final) started in 9816ms - Started 81 of 93 services (31 services are lazy, passive or on-demand)
+2019-06-02T00:55:38.548395649Z ***Admin server is ready
+2019-06-02T00:55:38.555859867Z STARTUP_FILE=/home/startup.sh
+2019-06-02T00:55:38.582558031Z STARTUP_COMMAND=
+2019-06-02T00:55:38.587032142Z Copying /home/startup.sh to /tmp/startup.sh and fixing EOL characters in /tmp/startup.sh
+2019-06-02T00:55:38.593801458Z Running STARTUP_FILE: /tmp/startup.sh
+2019-06-02T00:55:38.628501142Z Picked up JAVA_TOOL_OPTIONS:  -Djava.net.preferIPv4Stack=true
+2019-06-02T00:55:42.206161168Z "Configuring sqlDS ==================="
+2019-06-02T00:55:42.211727982Z "Installing MSSQL module"
+2019-06-02T00:55:42.253643983Z "Installing MSSQL driver"
+2019-06-02T00:55:42.284713558Z "Installing MSSQL datasource"
+2019-06-02T00:55:42.490971355Z The batch executed successfully
+2019-06-02T00:55:42.552288503Z 00:55:42,552 INFO  [org.jboss.as] (MSC service thread 1-1) WFLYSRV0050: WildFly Full 14.0.1.Final (WildFly Core 6.0.2.Final) stopped in 47ms
+2019-06-02T00:55:42.564687033Z 00:55:42,564 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0049: WildFly Full 14.0.1.Final (WildFly Core 6.0.2.Final) starting
+...
+...
+2019-06-02T00:55:44.293778902Z 00:55:44,293 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 44) WFLYJCA0004: Deploying JDBC-compliant driver class com.microsoft.sqlserver.jdbc.SQLServerDriver (version 7.2)
+2019-06-02T00:55:44.594576027Z 00:55:44,594 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-2) WFLYJCA0018: Started Driver service with driver-name = sqlserver
+2019-06-02T00:55:44.607447158Z 00:55:44,601 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-2) WFLYJCA0010: Unbound data source [java:jboss/datasources/ExampleDS]
+2019-06-02T00:55:44.610591266Z 00:55:44,610 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-2) WFLYJCA0010: Unbound data source [java:jboss/datasources/sqlDS]
+...
+...
+019-06-02T00:55:56.153951398Z 00:55:56,152 INFO  [org.jboss.as.jpa] (ServerService Thread Pool -- 79) WFLYJPA0010: Starting Persistence Unit (phase 2 of 2) Service 'ROOT.war#applicationPetstorePU'
+2019-06-02T00:55:57.237113910Z 00:55:57,232 INFO  [org.hibernate.dialect.Dialect] (ServerService Thread Pool -- 79) HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+
+```
+
 When you are finished, you can check your results 
 against YOUR code in 
 [migrate-Java-EE-app-to-azure/complete](https://github.com/Azure-Samples/migrate-Java-EE-app-to-azure/tree/master/complete).
@@ -1341,7 +1844,7 @@ az appservice plan update --number-of-workers 2 \
 
 Congratulations!! You migrated an 
 existing Java EE workload to Azure, aka app to App Service Linux and 
-app's data to Azure Database for PostgreSQL and or MySQL.
+app's data to Azure Database for PostgreSQL, MySQL and or SQL Database.
 
 ## Resources
 
@@ -1353,6 +1856,7 @@ app's data to Azure Database for PostgreSQL and or MySQL.
 - [PostgreSQL CLI Cheat Sheet](http://www.postgresqltutorial.com/postgresql-cheat-sheet/)
 - [JDBC driver for MySQL](https://dev.mysql.com/downloads/connector/j/)
 - [MySQL CLI Cheat Sheet](http://www.mysqltutorial.org/mysql-cheat-sheet.aspx)
+- [Cheat sheet for sqlcmd CLI](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility)
 - [Opening an SSH connection from your development machine](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-ssh-support#open-ssh-session-from-remote-shell)
 - [Azure for Java Developers](https://docs.microsoft.com/en-us/java/azure/)
 

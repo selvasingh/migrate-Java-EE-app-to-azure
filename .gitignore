@@ -30,6 +30,9 @@ initial-postgresql/agoncal-application-petstore-ee7/pom.xml
 initial-mysql/agoncal-application-petstore-ee7/*.sh
 initial-mysql/agoncal-application-petstore-ee7/.scripts/*
 initial-mysql/agoncal-application-petstore-ee7/pom.xml
+initial-sql/agoncal-application-petstore-ee7/*.sh
+initial-sql/agoncal-application-petstore-ee7/.scripts/*
+initial-sql/agoncal-application-petstore-ee7/pom.xml
 initial-complete/agoncal-application-petstore-ee7/*.sh
 initial-complete/agoncal-application-petstore-ee7/.scripts/*
 initial-complete/agoncal-application-petstore-ee7/pom.xml
