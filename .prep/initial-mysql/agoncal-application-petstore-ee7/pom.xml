@@ -250,23 +250,23 @@
         <!-- Deploy to WildFly in App Service Linux           -->
         <!--*************************************************-->
 
-        <plugin>
+      <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-webapp-maven-plugin</artifactId>
-        <version>1.5.1</version>
+        <version>1.6.0</version>
         <configuration>
 
-            <!-- Web App information -->
-            <resourceGroup>${RESOURCEGROUP_NAME}</resourceGroup>
-            <appServicePlanName>${WEBAPP_PLAN_NAME}</appServicePlanName>
-            <appName>${WEBAPP_NAME}</appName>
-            <region>${REGION}</region>
+          <!-- Web App information -->
+          <resourceGroup>${RESOURCEGROUP_NAME}</resourceGroup>
+          <appServicePlanName>${WEBAPP_PLAN_NAME}</appServicePlanName>
+          <appName>${WEBAPP_NAME}</appName>
+          <region>${REGION}</region>
 
-            <!-- Java Runtime Stack for Web App on Linux -->
-            <linuxRuntime>wildfly 14-jre8</linuxRuntime>
+          <!-- Java Runtime Stack for Web App on Linux -->
+          <linuxRuntime>wildfly 14-jre8</linuxRuntime>
 
         </configuration>
-        </plugin>
+      </plugin>
 
     </plugins>
   </build>
@@ -412,6 +412,42 @@
                 </goals>
                 <configuration>
                   <sourceFile>${project.basedir}/src/main/resources/META-INF/persistence-postgresql.xml</sourceFile>
+                  <destinationFile>${project.basedir}/src/main/resources/META-INF/persistence.xml</destinationFile>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>mysql</id>
+      <activation>
+        <property>
+          <name>db</name>
+          <value>mysql</value>
+        </property>
+      </activation>
+      <build>
+
+        <plugins>
+
+          <!-- copy the correct persistence.xml file -->
+          <plugin>
+            <groupId>com.coderplus.maven.plugins</groupId>
+            <artifactId>copy-rename-maven-plugin</artifactId>
+            <version>1.0</version>
+            <executions>
+              <execution>
+                <id>copy-file</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <sourceFile>${project.basedir}/src/main/resources/META-INF/persistence-mysql.xml</sourceFile>
                   <destinationFile>${project.basedir}/src/main/resources/META-INF/persistence.xml</destinationFile>
                 </configuration>
               </execution>
